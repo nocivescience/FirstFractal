@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    body{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+        padding: 0;
+    
+    }
+</style>
+<body>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.3/p5.min.js" integrity="sha512-0zGLOFv/+OQ6YfVCSGDQWhrDRx0ONmBqWvs3gI4olm8i6xtKoG1FhEnB4eTaWCVnojyfUDgE8Izeln+mAJAkFA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script>
+        var animate=true;
+        var angle=0;
+        var limit = 4;
+        var scrub = 0.01;
+        var animMult= .0002;
+        var sizeMult = 0.26;
+        var brLenRatio = 0.67;
+        var canvasSize= 600;
+        const colors= [
+            'red',
+            'yellow',
+        ]
+        function setup() {
+            createCanvas(canvasSize, canvasSize);
+            slider = createSlider(0, TWO_PI,        Math.PI, scrub);
+        }
+        function draw() {
+            strokeWeight(1);
+            background(50);
+            if(animate===true){
+                angle = slider.value()+(millis()*animMult);
+            }else{
+                angle =slider.value();
+            }
+            translate(width/2, height);
+            branch(height*sizeMult);
+        }
+        function branch(length){
+            stroke(colors[Math.floor(Math.random()*colors.length)]);
+            line(0,0,0,-length);
+            translate(0,-length);
+            push();
+            rotate(angle);
+            if(length>limit){
+                branch(length*brLenRatio);
+            }
+            pop();
+            push();
+            rotate(-angle);
+            if(length>limit){
+                branch(length*brLenRatio);
+            }
+            pop();
+        }
+    </script>
+</body>
+</html>
